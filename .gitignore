@@ -1,0 +1,10 @@
+__pycache__/
+.venv/
+.env*
+*.pcap*
+*.btsnoop
+*.log
+*.zip
+*.apk
+*.ipa
+.DS_Store
