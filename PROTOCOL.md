@@ -2,6 +2,8 @@
 
 The format below is based on observed traffic and independent tests, not a vendor specification.
 
+For the relationship between local delivery, offline playback, and cloud updates, start with [How Toast gets and displays photos](README.md#how-toast-gets-and-displays-photos).
+
 ## Transport
 
 The phone first connects to BLE GATT service `CE80` (Bluetooth base UUID); write requests to `CE81`, receive notifications on `CE82`. With the device awake and advertising, command `0x1001` requests the temporary access point. Keep BLE alive while the Wi-Fi client associates. The observed access point used 2.4 GHz, channel 6. Connect to the returned address and port (observed: `192.168.4.1:8899`). This is binary TCP, not HTTP.

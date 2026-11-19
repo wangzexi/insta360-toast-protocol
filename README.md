@@ -2,6 +2,16 @@
 
 Unofficial documentation and Python CLI for local photo delivery to the Insta360 Toast e-paper display. No Insta360 account is needed for the tested local access path. This project is not affiliated with Insta360.
 
+## How Toast gets and displays photos
+
+**Local delivery without Internet.** Long-press the function button until the blue LED flashes. The app connects over BLE and asks Toast to open a temporary Wi-Fi hotspot. The phone joins that hotspot and sends converted photos over a binary TCP connection. Uploading a file, committing its place in the playlist, and selecting which photo to display are separate operations.
+
+**Offline playback.** After delivery, Toast can display and cycle through its locally stored photos without the phone, router or cloud. The playlist determines which photos are available and their order; playback settings control the interval and whether to pin the current photo. This is offline playback of photos already on the device, not a cloud sync.
+
+**Remote delivery over the cloud.** The official app binds Toast to an account and gives it credentials for a home Wi-Fi network. Here **Toast joins the router**, rather than the phone joining Toast. The app submits a remote update; Toast can then fetch it over Wi-Fi without the phone staying connected. We verified that a short press fetched a new photo and refreshed the screen after the phone app was closed. The app also showed a next scheduled update time, but we did not observe an unattended update or establish its polling interval.
+
+These workflows explain why the protocol has separate commands for Bluetooth setup, image transfer, playlist changes and display selection. This CLI implements the local path; it does not replicate official cloud sign-in or home Wi-Fi provisioning. See [protocol details](PROTOCOL.md) for observed commands and open questions.
+
 ## Quick start
 
 Use macOS with Bluetooth access, Python 3, and `uv`. For TCP operations without changing the Mac's Wi-Fi, connect a USB-debugging-enabled Android phone with `adb` and Toybox `nc`. The phone temporarily joins the Toast hotspot. Use `adb devices` to identify the phone. Long-press the Toast function button until the blue LED flashes when the CLI starts scanning.
